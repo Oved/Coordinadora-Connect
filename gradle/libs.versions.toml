@@ -20,6 +20,8 @@ playServicesLocation = "21.3.0"
 playServicesMaps = "19.0.0"
 roomRuntime = "2.6.1"
 volley = "1.2.1"
+googleFirebaseAppdistribution = "5.0.0"
+googleGmsGoogleServices = "4.4.2"
 
 [libraries]
 android-database-sqlcipher = { module = "net.zetetic:android-database-sqlcipher", version.ref = "androidDatabaseSqlcipher" }
@@ -56,4 +58,6 @@ volley = { module = "com.android.volley:volley", version.ref = "volley" }
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+google-firebase-appdistribution = { id = "com.google.firebase.appdistribution", version.ref = "googleFirebaseAppdistribution" }
+google-gms-google-services = { id = "com.google.gms.google-services", version.ref = "googleGmsGoogleServices" }
 
