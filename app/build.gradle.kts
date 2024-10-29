@@ -7,6 +7,11 @@ plugins {
     alias(libs.plugins.google.firebase.appdistribution)
 }
 
+firebaseAppDistribution {
+    appId = "candidato-ovedrincon"
+    groups = "testers"
+}
+
 android {
     namespace = "com.ovedev.coordinadoraconnect"
     compileSdk = 35
