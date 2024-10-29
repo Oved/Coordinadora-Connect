@@ -20,10 +20,10 @@
             android:layout_marginHorizontal="4dp"
             android:layout_marginVertical="8dp"
             android:backgroundTint="@android:color/transparent"
-            android:scaleType="centerInside"
+            android:scaleType="centerCrop"
+            android:src="@drawable/img_banner"
             app:shapeAppearanceOverlay="@style/RoundedSquare16"
-            app:strokeWidth=".5dp"
-            tools:src="@drawable/img_banner" />
+            app:strokeWidth=".5dp" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/edlName"
