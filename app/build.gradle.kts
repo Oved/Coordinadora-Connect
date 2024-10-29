@@ -96,6 +96,8 @@ dependencies {
     implementation(libs.firebase.messaging.ktx)
     implementation(libs.play.services.maps)
     implementation(libs.play.services.location)
+    implementation (libs.firebase.firestore.ktx)
+    implementation (libs.firebase.auth.ktx)
 
     // Hilt
     implementation(libs.hilt.android)
