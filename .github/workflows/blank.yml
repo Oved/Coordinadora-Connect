@@ -23,6 +23,14 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
 
+      - name: Get version from build.gradle
+        id: get_version
+        run: echo "version=$(grep 'versionName' app/build.gradle | awk '{print $2}' | tr -d '\"')" >> $GITHUB_ENV
+
+      - name: Get last commit message
+        id: commit_msg
+        run: echo "commit_msg=$(git log -1 --pretty=%B)" >> $GITHUB_ENV
+
       - name: Show version and commit info
         run: |
           echo "Version: $(grep 'versionName' app/build.gradle | awk '{print $2}' | tr -d '\"')"
@@ -33,6 +41,7 @@ jobs:
           FIREBASE_APP_ID: candidato-ovedrincon
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
           GROUPS: testers
+          RELEASE_NOTES: "Versión: ${{ env.version }}, Commit: ${{ env.commit_msg }}"
         run: |
           ./gradlew assembleRelease
-          ./gradlew appDistributionUploadRelease
+          ./gradlew appDistributionUploadRelease -PfirebaseAppDistribution.releaseNotes="${RELEASE_NOTES}"
