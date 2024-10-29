@@ -33,4 +33,6 @@ jobs:
           FIREBASE_APP_ID: candidato-ovedrincon
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
           GROUPS: testers
-        run: ./gradlew appDistributionUploadRelease
+        run: |
+          ./gradlew assembleRelease
+          ./gradlew appDistributionUploadRelease

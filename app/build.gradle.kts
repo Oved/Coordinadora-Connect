@@ -8,7 +8,7 @@ plugins {
 }
 
 firebaseAppDistribution {
-    appId = "candidato-ovedrincon"
+    appId = "1:36345929815:android:1bd82c4f700e2739adc312"
     groups = "testers"
 }
 
