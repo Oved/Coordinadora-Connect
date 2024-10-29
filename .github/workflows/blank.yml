@@ -33,8 +33,8 @@ jobs:
 
       - name: Show version and commit info
         run: |
-          echo "Version: $(grep 'versionName' app/build.gradle | awk '{print $2}' | tr -d '\"')"
-          echo "Commit: ${{ github.sha }}"
+          echo "Version: ${{ env.version }}"
+          echo "Commit: ${{ env.commit_msg }}"
 
       - name: Build and distribute to Firebase
         env:
