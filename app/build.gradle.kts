@@ -3,7 +3,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     id("org.jetbrains.kotlin.kapt")
     id("com.google.gms.google-services")
-    id ("com.google.firebase.crashlytics")
+    id("com.google.firebase.crashlytics")
     alias(libs.plugins.google.firebase.appdistribution)
     id("com.google.dagger.hilt.android")
 }
@@ -68,41 +68,41 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
 
     // ktx
-    implementation (libs.androidx.activity.ktx)
-    implementation (libs.androidx.fragment.ktx)
-    implementation (libs.androidx.lifecycle.viewmodel.ktx)
-    implementation (libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.activity.ktx)
+    implementation(libs.androidx.fragment.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
 
     // Coroutines
-    implementation (libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.coroutines.android)
 
     // Firebase
     implementation(platform(libs.firebase.bom))
-    implementation (libs.firebase.analytics.ktx)
-    implementation (libs.firebase.crashlytics)
-    implementation (libs.places)
-    implementation (libs.firebase.messaging.ktx)
-    implementation (libs.play.services.maps)
-    implementation (libs.play.services.location)
+    implementation(libs.firebase.analytics.ktx)
+    implementation(libs.firebase.crashlytics)
+    implementation(libs.places)
+    implementation(libs.firebase.messaging.ktx)
+    implementation(libs.play.services.maps)
+    implementation(libs.play.services.location)
 
     // Hilt
-    implementation (libs.hilt.android)
-    kapt (libs.hilt.compiler)
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
 
     //Volley
     implementation(libs.volley)
 
     // Room
     implementation(libs.androidx.room.runtime)
-    kapt (libs.androidx.room.compiler)
-    implementation (libs.androidx.room.ktx)
-    implementation (libs.androidx.room.rxjava2)
-    implementation (libs.androidx.room.guava)
-    testImplementation (libs.androidx.room.testing)
-    implementation (libs.android.database.sqlcipher)
+    kapt(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.room.rxjava2)
+    implementation(libs.androidx.room.guava)
+    testImplementation(libs.androidx.room.testing)
+    implementation(libs.android.database.sqlcipher)
 
     // optional - Kotlin Extensions and Coroutines support for Room
-    implementation (libs.androidx.room.ktx)
+    implementation(libs.androidx.room.ktx)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
