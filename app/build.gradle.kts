@@ -1,3 +1,5 @@
+import java.io.ByteArrayOutputStream
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -5,11 +7,6 @@ plugins {
     id("com.google.gms.google-services")
     alias(libs.plugins.google.firebase.appdistribution)
     id("com.google.dagger.hilt.android")
-}
-
-firebaseAppDistribution {
-    appId = "1:36345929815:android:1bd82c4f700e2739adc312"
-    groups = "testers"
 }
 
 android {
@@ -21,10 +18,11 @@ android {
         minSdk = 24
         targetSdk = 34
         versionCode = 1
-        versionName = "1.0.0"
+        versionName = "1.0.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
+    project.ext.set("appVersionName", defaultConfig.versionName)
 
     buildTypes {
         release {
@@ -44,6 +42,22 @@ android {
         viewBinding = true
         buildConfig = true
     }
+}
+
+firebaseAppDistribution {
+    appId = "1:36345929815:android:1bd82c4f700e2739adc312"
+    groups = "testers"
+    releaseNotes = "Versión: ${project.ext.get("appVersionName")}"
+    val versionName = android.defaultConfig.versionName
+    val lastCommitMessage = run {
+        val output = ByteArrayOutputStream()
+        exec {
+            commandLine("git", "log", "-1", "--pretty=%B")
+            standardOutput = output
+        }
+        output.toString().trim()
+    }
+    releaseNotes = "Versión: $versionName, Commit: $lastCommitMessage"
 }
 
 java {
