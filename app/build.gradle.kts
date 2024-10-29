@@ -3,7 +3,6 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     id("org.jetbrains.kotlin.kapt")
     id("com.google.gms.google-services")
-    id("com.google.firebase.crashlytics")
     alias(libs.plugins.google.firebase.appdistribution)
     id("com.google.dagger.hilt.android")
 }
@@ -79,7 +78,6 @@ dependencies {
     // Firebase
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics.ktx)
-    implementation(libs.firebase.crashlytics)
     implementation(libs.places)
     implementation(libs.firebase.messaging.ktx)
     implementation(libs.play.services.maps)
