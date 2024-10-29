@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "d0164d487501fc37641a96d77fd86fc4",
+    "identityHash": "05a9fefd61f7244ab430469c2f27c515",
     "entities": [
       {
         "tableName": "users",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `name` TEXT NOT NULL, `email` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `username` TEXT NOT NULL, `password` TEXT NOT NULL, `validationPeriod` INTEGER NOT NULL)",
         "fields": [
           {
             "fieldPath": "id",
@@ -15,15 +15,21 @@
             "notNull": true
           },
           {
-            "fieldPath": "name",
-            "columnName": "name",
+            "fieldPath": "username",
+            "columnName": "username",
             "affinity": "TEXT",
             "notNull": true
           },
           {
-            "fieldPath": "email",
-            "columnName": "email",
+            "fieldPath": "password",
+            "columnName": "password",
             "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "validationPeriod",
+            "columnName": "validationPeriod",
+            "affinity": "INTEGER",
             "notNull": true
           }
         ],
@@ -40,7 +46,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'd0164d487501fc37641a96d77fd86fc4')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '05a9fefd61f7244ab430469c2f27c515')"
     ]
   }
 }
