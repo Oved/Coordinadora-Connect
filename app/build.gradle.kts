@@ -5,6 +5,7 @@ plugins {
     id("com.google.gms.google-services")
     id ("com.google.firebase.crashlytics")
     alias(libs.plugins.google.firebase.appdistribution)
+    id("com.google.dagger.hilt.android")
 }
 
 firebaseAppDistribution {
@@ -43,6 +44,12 @@ android {
     buildFeatures {
         viewBinding = true
         buildConfig = true
+    }
+}
+
+kapt {
+    arguments {
+        arg("room.schemaLocation", "$projectDir/schemas")
     }
 }
 
@@ -94,4 +101,8 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+}
+
+kapt {
+    correctErrorTypes = true
 }
