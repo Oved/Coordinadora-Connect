@@ -1,10 +1,11 @@
 package com.ovedev.coordinadoraconnect.domain.repository
 
+import com.ovedev.coordinadoraconnect.data.remote.response.LoginResponse
 import com.ovedev.coordinadoraconnect.presentation.model.UserModel
 
 interface AuthRepository {
 
-    fun login(username: String, password: String, onSuccess: (UserModel) -> Unit, onError: (String) -> Unit)
+    suspend fun login(username: String, password: String): LoginResponse
 
     suspend fun saveUser(user: UserModel)
 
