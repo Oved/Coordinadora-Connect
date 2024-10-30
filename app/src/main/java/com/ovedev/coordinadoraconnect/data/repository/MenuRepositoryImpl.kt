@@ -1,6 +1,6 @@
 package com.ovedev.coordinadoraconnect.data.repository
 
-import com.ovedev.coordinadoraconnect.data.remote.AuthDataSource
+import com.ovedev.coordinadoraconnect.data.remote.datasource.AuthDataSource
 import com.ovedev.coordinadoraconnect.data.remote.response.PdfResponse
 import com.ovedev.coordinadoraconnect.domain.repository.MenuRepository
 import kotlinx.coroutines.suspendCancellableCoroutine

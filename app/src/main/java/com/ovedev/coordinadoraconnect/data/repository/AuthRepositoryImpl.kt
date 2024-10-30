@@ -1,6 +1,6 @@
 package com.ovedev.coordinadoraconnect.data.repository
 
-import com.ovedev.coordinadoraconnect.data.remote.AuthDataSource
+import com.ovedev.coordinadoraconnect.data.remote.datasource.AuthDataSource
 import com.ovedev.coordinadoraconnect.data.remote.response.LoginResponse
 import com.ovedev.coordinadoraconnect.domain.repository.AuthRepository
 import com.ovedev.coordinadoraconnect.presentation.model.UserModel

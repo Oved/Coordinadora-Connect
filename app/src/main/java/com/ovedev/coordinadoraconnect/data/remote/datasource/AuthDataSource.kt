@@ -1,4 +1,4 @@
-package com.ovedev.coordinadoraconnect.data.remote
+package com.ovedev.coordinadoraconnect.data.remote.datasource
 
 import com.android.volley.Request
 import com.android.volley.RequestQueue

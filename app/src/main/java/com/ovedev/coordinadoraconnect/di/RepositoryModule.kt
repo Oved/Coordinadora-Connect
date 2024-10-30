@@ -1,8 +1,10 @@
 package com.ovedev.coordinadoraconnect.di
 
 import com.ovedev.coordinadoraconnect.data.repository.AuthRepositoryImpl
+import com.ovedev.coordinadoraconnect.data.repository.FirebaseRepositoryImpl
 import com.ovedev.coordinadoraconnect.data.repository.MenuRepositoryImpl
 import com.ovedev.coordinadoraconnect.domain.repository.AuthRepository
+import com.ovedev.coordinadoraconnect.domain.repository.FirebaseRepository
 import com.ovedev.coordinadoraconnect.domain.repository.MenuRepository
 import dagger.Binds
 import dagger.Module
@@ -18,5 +20,8 @@ interface RepositoryModule {
 
     @Binds
     fun provideMenuRepository(repository: MenuRepositoryImpl): MenuRepository
+
+    @Binds
+    fun provideFirebaseRepository(repository: FirebaseRepositoryImpl): FirebaseRepository
 
 }
