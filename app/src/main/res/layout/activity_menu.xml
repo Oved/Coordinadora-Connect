@@ -18,9 +18,9 @@
         <ImageView
             android:layout_width="?attr/actionBarSize"
             android:layout_height="?attr/actionBarSize"
+            android:layout_margin="8dp"
             android:gravity="start"
             android:scaleType="fitCenter"
-            android:layout_margin="8dp"
             app:srcCompat="@drawable/img_blue_logo" />
 
         <LinearLayout
@@ -38,6 +38,7 @@
                 app:srcCompat="@drawable/ic_location" />
 
             <ImageButton
+                android:id="@+id/btnReload"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -56,10 +57,10 @@
         android:layout_marginHorizontal="4dp"
         android:layout_marginVertical="8dp"
         android:backgroundTint="@android:color/transparent"
-        android:scaleType="centerInside"
+        android:scaleType="centerCrop"
+        android:src="@drawable/img_banner"
         app:layout_constraintTop_toBottomOf="@id/linearLayout2"
         app:shapeAppearanceOverlay="@style/RoundedSquare16"
-        app:strokeWidth=".5dp"
-        tools:src="@drawable/img_banner" />
+        app:strokeWidth=".5dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

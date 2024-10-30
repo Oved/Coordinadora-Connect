@@ -7,6 +7,7 @@ import com.ovedev.coordinadoraconnect.data.remote.response.LoginResponse
 import com.ovedev.coordinadoraconnect.data.remote.response.PdfResponse
 import com.ovedev.coordinadoraconnect.presentation.model.Position
 import com.ovedev.coordinadoraconnect.utils.Constant
+import org.json.JSONArray
 import org.json.JSONObject
 import javax.inject.Inject
 
@@ -27,16 +28,16 @@ class AuthDataSource @Inject constructor(
         val request = JsonObjectRequest(
             Request.Method.POST, Constant.URL_VALIDATE_USER, params,
             { response ->
-                val loginResponse = if (response.getBoolean("isError")) {
+                val loginResponse = if (response.optBoolean("isError", false)) {
                     LoginResponse(
                         isError = true,
-                        message = response.getString("data")
+                        message = response.optString("data", "Error desconocido")
                     )
                 } else {
                     LoginResponse(
                         isError = false,
-                        message = response.getString("data"),
-                        validationPeriod = response.getInt("perido_validacion")
+                        message = response.optString("data", ""),
+                        validationPeriod = response.optInt("perido_validacion", 2)
                     )
                 }
                 onResult(loginResponse)
@@ -55,14 +56,14 @@ class AuthDataSource @Inject constructor(
     fun getPdfImage(onResult: (PdfResponse) -> Unit) {
 
         val request = JsonObjectRequest(
-            Request.Method.POST, Constant.URL_GET_IMAGE_PDF, JSONObject(),
+            Request.Method.GET, Constant.URL_GET_IMAGE_PDF, JSONObject(),
             { response ->
-                val base64Response = if (response.getBoolean("isError")) {
+                val base64Response = if (response.optBoolean("isError", false)) {
                     PdfResponse(isError = true)
                 } else {
                     PdfResponse(
                         isError = false,
-                        base64Data = response.getString("base64Data"),
+                        base64Data = response.optString("base64"),
                         positions = extractPositionsFromJson(response)
                     )
                 }
@@ -76,13 +77,13 @@ class AuthDataSource @Inject constructor(
 
     private fun extractPositionsFromJson(response: JSONObject): List<Position> {
         val positions = mutableListOf<Position>()
-        val positionsJsonArray = response.getJSONArray("posiciones")
+        val positionsJsonArray = response.optJSONArray("posiciones") ?: JSONArray()
 
         for (i in 0 until positionsJsonArray.length()) {
             val positionJson = positionsJsonArray.getJSONObject(i)
 
-            val latitude = positionJson.getDouble("latitud")
-            val longitude = positionJson.getDouble("longitud")
+            val latitude = positionJson.optDouble("latitud", 0.0)
+            val longitude = positionJson.optDouble("longitud", 0.0)
 
             positions.add(Position(latitude, longitude))
         }
