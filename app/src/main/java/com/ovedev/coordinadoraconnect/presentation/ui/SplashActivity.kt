@@ -4,11 +4,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.animation.AnimationUtils
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.ovedev.coordinadoraconnect.BuildConfig
 import com.ovedev.coordinadoraconnect.R
+import com.ovedev.coordinadoraconnect.data.Response
 import com.ovedev.coordinadoraconnect.databinding.ActivitySplashBinding
 import com.ovedev.coordinadoraconnect.presentation.ui.base.BaseActivity
+import com.ovedev.coordinadoraconnect.presentation.viewmodel.AuthViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
@@ -17,6 +20,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class SplashActivity : BaseActivity() {
 
+    private val authViewModel: AuthViewModel by viewModels()
     private lateinit var binding: ActivitySplashBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,9 +28,11 @@ class SplashActivity : BaseActivity() {
         enableEdgeToEdge()
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        setupViewModel()
         setupView()
         doAnimation()
-        validateNavigation()
+        authViewModel.isSessionActive()
     }
 
     private fun setupView() {
@@ -34,19 +40,23 @@ class SplashActivity : BaseActivity() {
         binding.txtVersion.text = strVersion
     }
 
-    private fun validateNavigation() {
+    private fun setupViewModel() {
+        authViewModel.isSessionActive.observe(this) { response ->
+            when (response) {
+                is Response.Error -> Unit
+                is Response.Loading -> Unit
+                is Response.Success -> validateNavigation(response.data)
+            }
+        }
+    }
 
+    private fun validateNavigation(isSessionActive: Boolean) {
         lifecycleScope.launch {
             delay(2000)
-            val destination = if (isSessionActive()) MenuActivity::class.java else LoginActivity::class.java
+            val destination = if (isSessionActive) MenuActivity::class.java else LoginActivity::class.java
             startActivity(Intent(this@SplashActivity, destination))
             finish()
         }
-
-    }
-
-    private fun isSessionActive(): Boolean {
-        return false
     }
 
     private fun doAnimation() {

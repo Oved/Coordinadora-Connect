@@ -6,7 +6,7 @@ interface UserDBRepository {
 
     suspend fun saveUser(userEntity: UserEntity)
 
-    suspend fun getUser(userId: String): UserEntity?
+    suspend fun getUser(): UserEntity?
 
     suspend fun updateUserEntity(userEntity: UserEntity)
 

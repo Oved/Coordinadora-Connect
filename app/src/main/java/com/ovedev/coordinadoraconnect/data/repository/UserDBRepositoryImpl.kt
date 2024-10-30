@@ -13,7 +13,7 @@ class UserDBRepositoryImpl @Inject constructor(
         userDao.insertUser(userEntity)
     }
 
-    override suspend fun getUser(userId: String) = userDao.getAllUsers().firstOrNull()
+    override suspend fun getUser() = userDao.getAllUsers().firstOrNull()
 
 
     override suspend fun updateUserEntity(userEntity: UserEntity) {
