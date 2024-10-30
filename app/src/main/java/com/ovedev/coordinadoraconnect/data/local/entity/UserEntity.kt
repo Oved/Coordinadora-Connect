@@ -6,18 +6,18 @@ import com.ovedev.coordinadoraconnect.presentation.model.UserModel
 
 @Entity(tableName = "users")
 data class UserEntity(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int,
-    val username: String,
-    val password: String,
+    @PrimaryKey
+    val userId: String,
+    val userName: String,
+    val registerDate: String,
     val validationPeriod: Int
 )
 
 fun UserEntity.toDomain(): UserModel {
     return UserModel(
-        id = this.id,
-        username = this.username,
-        password = this.password,
+        userId = this.userId,
+        username = this.userName,
+        registerDate = this.registerDate,
         validationPeriod = this.validationPeriod
     )
 }
