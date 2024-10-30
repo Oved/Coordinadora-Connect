@@ -1,6 +1,6 @@
 package com.ovedev.coordinadoraconnect.utils
 
-import android.util.Log
+import android.os.Environment
 import com.ovedev.coordinadoraconnect.CoordinadoraConnectApp
 import java.io.File
 import java.io.FileOutputStream
@@ -13,7 +13,12 @@ class FileUtil @Inject constructor(
 
     fun saveFileInLocalBase64(fileBase64: String, fileName: String): File? {
 
-        val file = File(applicationContext.filesDir, fileName)
+        val downloadsDir = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "pruebacoordi")
+        if (!downloadsDir.exists()) {
+            downloadsDir.mkdirs()
+        }
+
+        val file = File(downloadsDir, fileName)
 
         return try {
             val outputStream = FileOutputStream(file)
@@ -22,7 +27,7 @@ class FileUtil @Inject constructor(
             file
 
         } catch (e: IOException) {
-            Log.e("Exc", "saveFileInLocalBase64: ${e.message}")
+            e.printStackTrace()
             null
         }
 
