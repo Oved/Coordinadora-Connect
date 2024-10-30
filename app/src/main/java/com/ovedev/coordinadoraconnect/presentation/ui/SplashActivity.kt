@@ -9,10 +9,12 @@ import androidx.lifecycle.lifecycleScope
 import com.ovedev.coordinadoraconnect.BuildConfig
 import com.ovedev.coordinadoraconnect.R
 import com.ovedev.coordinadoraconnect.databinding.ActivitySplashBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class SplashActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySplashBinding
