@@ -5,14 +5,14 @@ import android.os.Bundle
 import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import com.ovedev.coordinadoraconnect.data.Response
 import com.ovedev.coordinadoraconnect.databinding.ActivityLoginBinding
+import com.ovedev.coordinadoraconnect.presentation.ui.base.BaseActivity
 import com.ovedev.coordinadoraconnect.presentation.viewmodel.AuthViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : BaseActivity() {
 
     private val authViewModel: AuthViewModel by viewModels()
 

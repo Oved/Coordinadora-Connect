@@ -2,13 +2,12 @@ package com.ovedev.coordinadoraconnect.presentation.ui
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import com.ovedev.coordinadoraconnect.R
 import com.ovedev.coordinadoraconnect.databinding.ActivityMenuBinding
+import com.ovedev.coordinadoraconnect.presentation.ui.base.BaseActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MenuActivity : AppCompatActivity() {
+class MenuActivity : BaseActivity() {
 
     private lateinit var binding: ActivityMenuBinding
 
