@@ -12,8 +12,15 @@ open class BaseActivity : AppCompatActivity() {
     @Inject
     lateinit var fileUtil: FileUtil
 
+    lateinit var loadingModal: ProgressLoadingModal
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setupView()
+    }
+
+    private fun setupView() {
+        loadingModal = ProgressLoadingModal(this)
     }
 
 }
