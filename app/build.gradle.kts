@@ -96,8 +96,8 @@ dependencies {
     implementation(libs.firebase.messaging.ktx)
     implementation(libs.play.services.maps)
     implementation(libs.play.services.location)
-    implementation (libs.firebase.firestore.ktx)
-    implementation (libs.firebase.auth.ktx)
+    implementation(libs.firebase.firestore.ktx)
+    implementation(libs.firebase.auth.ktx)
 
     // Hilt
     implementation(libs.hilt.android)
@@ -117,6 +117,13 @@ dependencies {
 
     // optional - Kotlin Extensions and Coroutines support for Room
     implementation(libs.androidx.room.ktx)
+
+    // Pdf
+    implementation(libs.androidpdfviewer)
+
+    // Rxpermissions
+    implementation (libs.rxjava)
+    implementation (libs.rxpermissions)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
