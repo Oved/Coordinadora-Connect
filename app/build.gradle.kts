@@ -57,7 +57,7 @@ firebaseAppDistribution {
         }
         output.toString().trim()
     }
-    releaseNotes = "Versión: $versionName, Commit: $lastCommitMessage"
+    releaseNotes = "Version: $versionName\n\nCommit: $lastCommitMessage"
 }
 
 java {

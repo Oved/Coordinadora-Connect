@@ -2,6 +2,7 @@ package com.ovedev.coordinadoraconnect.presentation.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -31,7 +32,7 @@ class LoginActivity : AppCompatActivity() {
         authViewModel.responseLogin.observe(this) { response ->
             when (response) {
                 is Response.Error -> Unit
-                is Response.Loading -> Unit
+                is Response.Loading -> binding.progressBar.visibility = if (response.isLoading) View.VISIBLE else View.GONE
                 is Response.Success -> startActivity(Intent(this@LoginActivity, MenuActivity::class.java))
             }
         }
