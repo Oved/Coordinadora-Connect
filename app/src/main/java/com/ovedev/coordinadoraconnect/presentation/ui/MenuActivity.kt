@@ -1,8 +1,8 @@
 package com.ovedev.coordinadoraconnect.presentation.ui
 
-import android.Manifest
-import android.annotation.SuppressLint
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import com.ovedev.coordinadoraconnect.data.Response
@@ -10,7 +10,8 @@ import com.ovedev.coordinadoraconnect.data.remote.response.PdfResponse
 import com.ovedev.coordinadoraconnect.databinding.ActivityMenuBinding
 import com.ovedev.coordinadoraconnect.presentation.ui.base.BaseActivity
 import com.ovedev.coordinadoraconnect.presentation.viewmodel.MenuViewModel
-import com.tbruyelle.rxpermissions3.RxPermissions
+import com.ovedev.coordinadoraconnect.utils.Constant
+import com.ovedev.coordinadoraconnect.utils.PermissionsUtil
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -26,15 +27,15 @@ class MenuActivity : BaseActivity() {
         setContentView(binding.root)
 
         setupViewModel()
-        requestPermissionsStorage()
         setupListeners()
+        requestPermissions()
     }
 
     private fun setupViewModel() {
         menuViewModel.responsePdf.observe(this) { response ->
             when (response) {
                 is Response.Error -> Unit
-                is Response.Loading -> Unit
+                is Response.Loading -> if (response.isLoading) loadingModal.show() else loadingModal.hide()
                 is Response.Success -> processData(response.data)
             }
         }
@@ -46,31 +47,38 @@ class MenuActivity : BaseActivity() {
 
     private fun setupListeners() {
         binding.btnReload.setOnClickListener {
-            //loadData()
+            requestPermissions()
+        }
+    }
+
+    private fun requestPermissions() {
+        PermissionsUtil().requestStoragePermissions(this) {
+            loadData()
         }
     }
 
     private fun processData(response: PdfResponse) {
-
         response.base64Data?.let {
-            val fileDoc = fileUtil.saveFileInLocalBase64(it, "archivo.pdf")
-            binding.pdfView.fromFile(fileDoc)
+            val fileDoc = fileUtil.saveFileInLocalBase64(it, Constant.FILE_NAME)
+            binding.pdfView.fromUri(fileDoc)
                 .defaultPage(0)
                 .load()
         }
-
     }
 
-    @SuppressLint("CheckResult")
-    private fun requestPermissionsStorage() {
-
-        RxPermissions(this).request(Manifest.permission.WRITE_EXTERNAL_STORAGE).subscribe({ granted ->
-            if (granted) loadData()
-            else Unit
-        }, {
-
-        })
-
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == PermissionsUtil.STORAGE_PERMISSION_CODE) {
+            if (grantResults.isNotEmpty() && grantResults.all { it == PackageManager.PERMISSION_GRANTED }) {
+                loadData()
+            } else {
+                Toast.makeText(this, "Permisos de almacenamiento denegados", Toast.LENGTH_LONG).show()
+            }
+        }
     }
 
 }
