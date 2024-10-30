@@ -4,6 +4,8 @@ import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.JsonObjectRequest
 import com.ovedev.coordinadoraconnect.data.remote.response.LoginResponse
+import com.ovedev.coordinadoraconnect.data.remote.response.PdfResponse
+import com.ovedev.coordinadoraconnect.presentation.model.Position
 import com.ovedev.coordinadoraconnect.utils.Constant
 import org.json.JSONObject
 import javax.inject.Inject
@@ -49,4 +51,42 @@ class AuthDataSource @Inject constructor(
         )
         requestQueue.add(request)
     }
+
+    fun getPdfImage(onResult: (PdfResponse) -> Unit) {
+
+        val request = JsonObjectRequest(
+            Request.Method.POST, Constant.URL_GET_IMAGE_PDF, JSONObject(),
+            { response ->
+                val base64Response = if (response.getBoolean("isError")) {
+                    PdfResponse(isError = true)
+                } else {
+                    PdfResponse(
+                        isError = false,
+                        base64Data = response.getString("base64Data"),
+                        positions = extractPositionsFromJson(response)
+                    )
+                }
+                onResult(base64Response)
+            },
+            { onResult(PdfResponse(isError = true)) }
+        )
+
+        requestQueue.add(request)
+    }
+
+    private fun extractPositionsFromJson(response: JSONObject): List<Position> {
+        val positions = mutableListOf<Position>()
+        val positionsJsonArray = response.getJSONArray("posiciones")
+
+        for (i in 0 until positionsJsonArray.length()) {
+            val positionJson = positionsJsonArray.getJSONObject(i)
+
+            val latitude = positionJson.getDouble("latitud")
+            val longitude = positionJson.getDouble("longitud")
+
+            positions.add(Position(latitude, longitude))
+        }
+        return positions
+    }
+
 }
