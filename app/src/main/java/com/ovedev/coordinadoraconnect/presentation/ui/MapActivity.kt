@@ -71,7 +71,8 @@ class MapActivity : BaseActivity(), OnMapReadyCallback {
             val boundsBuilder = LatLngBounds.Builder()
             for (position in positionsList) {
                 val location = LatLng(position.latitude, position.longitude)
-                gMap.addMarker(MarkerOptions().position(location).title("Posición ${position.latitude - position.longitude}"))
+                val titlePosition = getString(R.string.text_position).replace(Constant.GLOBAL_REPLACEMENT, "${position.latitude - position.longitude}")
+                gMap.addMarker(MarkerOptions().position(location).title(titlePosition))
                 boundsBuilder.include(location)
             }
 

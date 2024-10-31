@@ -4,13 +4,14 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.widget.Toast
-import android.window.OnBackInvokedDispatcher
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import com.ovedev.coordinadoraconnect.R
 import com.ovedev.coordinadoraconnect.data.Response
 import com.ovedev.coordinadoraconnect.data.remote.response.PdfResponse
 import com.ovedev.coordinadoraconnect.databinding.ActivityMenuBinding
 import com.ovedev.coordinadoraconnect.presentation.model.Position
+import com.ovedev.coordinadoraconnect.presentation.model.UserModel
 import com.ovedev.coordinadoraconnect.presentation.ui.base.BaseActivity
 import com.ovedev.coordinadoraconnect.presentation.viewmodel.MenuViewModel
 import com.ovedev.coordinadoraconnect.utils.Constant
@@ -86,9 +87,11 @@ class MenuActivity : BaseActivity() {
         }
     }
 
-    private fun processContinueInSession(inSession: Boolean) {
-        if (inSession) requestPermissions()
-        else showDialogSessionExpired()
+    private fun processContinueInSession(user: UserModel?) {
+        if (user != null) {
+            binding.txtName.text = getString(R.string.text_welcome).replace(Constant.GLOBAL_REPLACEMENT, user.username)
+            requestPermissions()
+        } else showDialogSessionExpired()
     }
 
     private fun goToMap() {
@@ -114,7 +117,7 @@ class MenuActivity : BaseActivity() {
             if (grantResults.isNotEmpty() && grantResults.all { it == PackageManager.PERMISSION_GRANTED }) {
                 menuViewModel.getPdfLocation()
             } else {
-                Toast.makeText(this, "Permisos de almacenamiento denegados", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, getString(R.string.text_permissions_denied), Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -126,11 +129,11 @@ class MenuActivity : BaseActivity() {
             override fun onPressBtnTwo() = Unit
         })
         dialog.show(
-            "Error",
+            getString(R.string.text_error_title),
             message,
-            "Reintentar",
+            getString(R.string.text_try),
             btnTwoEnable = true,
-            "Entendido"
+            getString(R.string.text_understood)
         )
     }
 
@@ -141,9 +144,9 @@ class MenuActivity : BaseActivity() {
             override fun onPressBtnTwo() = Unit
         })
         dialog.show(
-            "Tu sesión ha expirado",
-            "Tu sesión ha expirado, por favor inicia sesión nuevamente",
-            "Entendido"
+            getString(R.string.text_session_expired),
+            getString(R.string.text_session_expired_message),
+            getString(R.string.text_close_session)
         )
     }
 

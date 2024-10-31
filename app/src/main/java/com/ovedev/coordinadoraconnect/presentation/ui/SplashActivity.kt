@@ -12,6 +12,7 @@ import com.ovedev.coordinadoraconnect.data.Response
 import com.ovedev.coordinadoraconnect.databinding.ActivitySplashBinding
 import com.ovedev.coordinadoraconnect.presentation.ui.base.BaseActivity
 import com.ovedev.coordinadoraconnect.presentation.viewmodel.AuthViewModel
+import com.ovedev.coordinadoraconnect.utils.Constant
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
@@ -36,7 +37,7 @@ class SplashActivity : BaseActivity() {
     }
 
     private fun setupView() {
-        val strVersion = "CC:${BuildConfig.VERSION_NAME}"
+        val strVersion = getString(R.string.text_version).replace(Constant.GLOBAL_REPLACEMENT, BuildConfig.VERSION_NAME)
         binding.txtVersion.text = strVersion
     }
 

@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.core.widget.doOnTextChanged
+import com.ovedev.coordinadoraconnect.R
 import com.ovedev.coordinadoraconnect.data.Response
 import com.ovedev.coordinadoraconnect.databinding.ActivityLoginBinding
 import com.ovedev.coordinadoraconnect.presentation.ui.base.BaseActivity
@@ -75,11 +76,11 @@ class LoginActivity : BaseActivity() {
             override fun onPressBtnTwo() = Unit
         })
         dialog.show(
-            "Error",
+            getString(R.string.text_error_title),
             message,
-            "Reintentar",
+            getString(R.string.text_try),
             btnTwoEnable = true,
-            "Entendido"
+            getString(R.string.text_understood)
         )
     }
 }
