@@ -32,7 +32,7 @@ class AuthDataSource @Inject constructor(
                 val loginResponse = if (response.optBoolean("isError", false)) {
                     LoginResponse(
                         isError = true,
-                        message = response.optString("data", "Error desconocido")
+                        message = response.optString("message", "Error desconocido")
                     )
                 } else {
                     LoginResponse(

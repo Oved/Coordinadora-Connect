@@ -39,7 +39,7 @@ class MenuActivity : BaseActivity() {
     private fun setupViewModel() {
         menuViewModel.responsePdf.observe(this) { response ->
             when (response) {
-                is Response.Error -> showDialogError()
+                is Response.Error -> showDialogError(response.errorMessage)
                 is Response.Loading -> if (response.isLoading) loadingModal.show() else loadingModal.hide()
                 is Response.Success -> processData(response.data)
             }
@@ -96,19 +96,36 @@ class MenuActivity : BaseActivity() {
         }
     }
 
-    private fun showDialogError() {
+    private fun showDialogError(message: String) {
         val dialog = DialogInfo(this)
         dialog.setCallbacks(object : IDialogInfo {
-            override fun onPressBtn() = Unit
+            override fun onPressBtn() = loadData()
             override fun onPressBtnTwo() = Unit
         })
         dialog.show(
             "Error",
-            "Error en la respuesta",
+            message,
             "Reintentar",
             btnTwoEnable = true,
             "Entendido"
         )
+    }
+
+    private fun showDialogSessionExpired() {
+        val dialog = DialogInfo(this)
+        dialog.setCallbacks(object : IDialogInfo {
+            override fun onPressBtn() = closeSession()
+            override fun onPressBtnTwo() = Unit
+        })
+        dialog.show(
+            "Tu sesión ha expirado",
+            "Tu sesión ha expirado, por favor inicia sesión nuevamente",
+            "Entendido"
+        )
+    }
+
+    private fun closeSession() {
+
     }
 
 }

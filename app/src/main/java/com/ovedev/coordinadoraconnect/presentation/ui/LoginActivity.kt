@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.core.widget.doOnTextChanged
 import com.ovedev.coordinadoraconnect.data.Response
 import com.ovedev.coordinadoraconnect.databinding.ActivityLoginBinding
 import com.ovedev.coordinadoraconnect.presentation.ui.base.BaseActivity
@@ -32,7 +33,7 @@ class LoginActivity : BaseActivity() {
     private fun setupViewModel() {
         authViewModel.responseLogin.observe(this) { response ->
             when (response) {
-                is Response.Error -> showDialogError()
+                is Response.Error -> showDialogError(response.errorMessage)
                 is Response.Loading -> if (response.isLoading) loadingModal.show() else loadingModal.hide()
                 is Response.Success -> goToMenu()
             }
@@ -43,6 +44,16 @@ class LoginActivity : BaseActivity() {
         binding.btnLogin.setOnClickListener {
             doLogin()
         }
+        binding.edtName.doOnTextChanged { _, _, _, _ ->
+            validateBtnLogin()
+        }
+        binding.edtName.doOnTextChanged { _, _, _, _ ->
+            validateBtnLogin()
+        }
+    }
+
+    private fun validateBtnLogin() {
+        binding.btnLogin.isEnabled = ((binding.edtName.text?.length ?: 0) > 4 && (binding.edtPassword.text?.length ?: 0) > 4)
     }
 
     private fun goToMenu() {
@@ -57,15 +68,15 @@ class LoginActivity : BaseActivity() {
         )
     }
 
-    private fun showDialogError() {
+    private fun showDialogError(message: String) {
         val dialog = DialogInfo(this)
         dialog.setCallbacks(object : IDialogInfo {
-            override fun onPressBtn() = Unit
+            override fun onPressBtn() = doLogin()
             override fun onPressBtnTwo() = Unit
         })
         dialog.show(
             "Error",
-            "Error en la respuesta",
+            message,
             "Reintentar",
             btnTwoEnable = true,
             "Entendido"
