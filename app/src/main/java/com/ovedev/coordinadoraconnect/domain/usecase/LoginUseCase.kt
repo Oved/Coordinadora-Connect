@@ -1,15 +1,20 @@
 package com.ovedev.coordinadoraconnect.domain.usecase
 
 import com.ovedev.coordinadoraconnect.data.Response
+import com.ovedev.coordinadoraconnect.data.local.entity.UserEntity
 import com.ovedev.coordinadoraconnect.data.remote.response.LoginResponse
 import com.ovedev.coordinadoraconnect.domain.repository.AuthRepository
 import com.ovedev.coordinadoraconnect.domain.repository.FirebaseRepository
+import com.ovedev.coordinadoraconnect.domain.repository.UserDBRepository
+import com.ovedev.coordinadoraconnect.utils.dateToString
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import java.util.Date
 import javax.inject.Inject
 
 class LoginUseCase @Inject constructor(
     private val authRepository: AuthRepository,
+    private val userDBRepository: UserDBRepository,
     private val firebaseRepository: FirebaseRepository
 ) {
     operator fun invoke(username: String, password: String): Flow<Response<LoginResponse>> = flow {
@@ -19,18 +24,10 @@ class LoginUseCase @Inject constructor(
             if (response.isError == true) {
                 emit(Response.Error(response.message ?: "Error desconocido"))
             } else {
-                val user = firebaseRepository.getUser(username)
-
-                if (user == null) emit(Response.Error(response.message ?: "Error en la consulta"))
-                else if (user.userId == null) {
-                    val result = firebaseRepository.saveUser(userId = username, userName = "Oved Rincón", validationPeriod = response.validationPeriod ?: 0)
-                    if (result) emit(Response.Success(response))
-                    else emit(Response.Error(response.message ?: "No se guardó el usuario"))
-                } else {
-                    val resultUpdate = firebaseRepository.updateValidationPeriod(user.userId, user.validationPeriod - 1) //TODO validar estado
-                    if (resultUpdate) emit(Response.Success(response))
-                    else emit(Response.Error("Error en la petición"))
-                }
+                userDBRepository.saveUser(createUserEntity(userId = username, response.validationPeriod))
+                val userSaved = firebaseRepository.saveUser(userId = username, userName = "Oved Rincón", validationPeriod = response.validationPeriod ?: 0)
+                if (userSaved) emit(Response.Success(response))
+                else emit(Response.Error(response.message ?: "Error en el servicio"))
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -38,4 +35,11 @@ class LoginUseCase @Inject constructor(
         }
         emit(Response.Loading(false))
     }
+
+    private fun createUserEntity(userId: String, period: Int?) = UserEntity(
+        userId = userId,
+        userName = "Oved Rincón",
+        registerDate = Date().dateToString(),
+        validationPeriod = period ?: 0
+    )
 }

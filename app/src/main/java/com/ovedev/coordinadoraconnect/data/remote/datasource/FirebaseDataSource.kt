@@ -56,9 +56,14 @@ class FirebaseDataSource @Inject constructor(
     }
 
     fun updateValidationPeriod(userId: String, newValidationPeriod: Int, onResultSuccess: (Boolean) -> Unit) {
+
+        val updates = mapOf(
+            "periodo_validacion" to newValidationPeriod,
+            "fecha_registro" to Timestamp.now(),
+        )
         firebaseFireStore.collection("usuario_login")
             .document(userId)
-            .update("periodo_validacion", newValidationPeriod)
+            .update(updates)
             .addOnSuccessListener {
                 onResultSuccess(true)
             }

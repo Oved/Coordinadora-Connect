@@ -1,13 +1,10 @@
 package com.ovedev.coordinadoraconnect.domain.usecase
 
 import com.ovedev.coordinadoraconnect.data.Response
-import com.ovedev.coordinadoraconnect.data.local.entity.UserEntity
 import com.ovedev.coordinadoraconnect.domain.repository.FirebaseRepository
 import com.ovedev.coordinadoraconnect.domain.repository.UserDBRepository
-import com.ovedev.coordinadoraconnect.utils.dateToString
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import java.util.Date
 import javax.inject.Inject
 
 class VerifyContinueInSessionUseCase @Inject constructor(
@@ -31,11 +28,4 @@ class VerifyContinueInSessionUseCase @Inject constructor(
         }
         emit(Response.Loading(false))
     }
-
-    private fun createUserEntity(userId: String, period: Int?) = UserEntity(
-        userId = userId,
-        userName = "Oved Rincón",
-        registerDate = Date().dateToString(),
-        validationPeriod = period ?: 0
-    )
 }

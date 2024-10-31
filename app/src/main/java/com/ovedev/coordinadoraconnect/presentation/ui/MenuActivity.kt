@@ -4,6 +4,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.widget.Toast
+import android.window.OnBackInvokedDispatcher
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import com.ovedev.coordinadoraconnect.data.Response
@@ -33,7 +34,7 @@ class MenuActivity : BaseActivity() {
 
         setupViewModel()
         setupListeners()
-        requestPermissions()
+        menuViewModel.verifyContinueInSession()
     }
 
     private fun setupViewModel() {
@@ -44,10 +45,20 @@ class MenuActivity : BaseActivity() {
                 is Response.Success -> processData(response.data)
             }
         }
-    }
-
-    private fun loadData() {
-        menuViewModel.getPdfLocation()
+        menuViewModel.responseContinueInSession.observe(this) { response ->
+            when (response) {
+                is Response.Error -> Unit
+                is Response.Loading -> if (response.isLoading) loadingModal.show() else loadingModal.hide()
+                is Response.Success -> processContinueInSession(response.data)
+            }
+        }
+        menuViewModel.responseCloseSession.observe(this) { response ->
+            when (response) {
+                is Response.Error -> goToSplash()
+                is Response.Loading -> if (response.isLoading) loadingModal.show() else loadingModal.hide()
+                is Response.Success -> goToSplash()
+            }
+        }
     }
 
     private fun setupListeners() {
@@ -61,7 +72,7 @@ class MenuActivity : BaseActivity() {
 
     private fun requestPermissions() {
         PermissionsUtil().requestStoragePermissions(this) {
-            loadData()
+            menuViewModel.getPdfLocation()
         }
     }
 
@@ -75,10 +86,22 @@ class MenuActivity : BaseActivity() {
         }
     }
 
+    private fun processContinueInSession(inSession: Boolean) {
+        if (inSession) requestPermissions()
+        else showDialogSessionExpired()
+    }
+
     private fun goToMap() {
         val intent = Intent(this, MapActivity::class.java)
         intent.putParcelableArrayListExtra(Constant.BUNDLE_KEY_POSITIONS, ArrayList(gPositions ?: emptyList()))
         startActivity(intent)
+    }
+
+    private fun goToSplash() {
+        val intent = Intent(this@MenuActivity, SplashActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        finish()
     }
 
     override fun onRequestPermissionsResult(
@@ -89,7 +112,7 @@ class MenuActivity : BaseActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == PermissionsUtil.STORAGE_PERMISSION_CODE) {
             if (grantResults.isNotEmpty() && grantResults.all { it == PackageManager.PERMISSION_GRANTED }) {
-                loadData()
+                menuViewModel.getPdfLocation()
             } else {
                 Toast.makeText(this, "Permisos de almacenamiento denegados", Toast.LENGTH_LONG).show()
             }
@@ -99,7 +122,7 @@ class MenuActivity : BaseActivity() {
     private fun showDialogError(message: String) {
         val dialog = DialogInfo(this)
         dialog.setCallbacks(object : IDialogInfo {
-            override fun onPressBtn() = loadData()
+            override fun onPressBtn() = menuViewModel.getPdfLocation()
             override fun onPressBtnTwo() = Unit
         })
         dialog.show(
@@ -114,7 +137,7 @@ class MenuActivity : BaseActivity() {
     private fun showDialogSessionExpired() {
         val dialog = DialogInfo(this)
         dialog.setCallbacks(object : IDialogInfo {
-            override fun onPressBtn() = closeSession()
+            override fun onPressBtn() = menuViewModel.closeSession()
             override fun onPressBtnTwo() = Unit
         })
         dialog.show(
@@ -122,10 +145,6 @@ class MenuActivity : BaseActivity() {
             "Tu sesión ha expirado, por favor inicia sesión nuevamente",
             "Entendido"
         )
-    }
-
-    private fun closeSession() {
-
     }
 
 }
