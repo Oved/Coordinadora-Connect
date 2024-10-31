@@ -49,7 +49,8 @@ class FirebaseDataSource @Inject constructor(
                     onResult(UserResponse(userId = null, "", 0, Timestamp.now()))
                 }
             }
-            .addOnFailureListener {
+            .addOnFailureListener { e ->
+                e.printStackTrace()
                 onResult(null)
             }
     }
@@ -61,7 +62,8 @@ class FirebaseDataSource @Inject constructor(
             .addOnSuccessListener {
                 onResultSuccess(true)
             }
-            .addOnFailureListener {
+            .addOnFailureListener { e ->
+                e.printStackTrace()
                 onResultSuccess(false)
             }
     }
@@ -73,7 +75,8 @@ class FirebaseDataSource @Inject constructor(
             .addOnSuccessListener {
                 onResultSuccess(true)
             }
-            .addOnFailureListener {
+            .addOnFailureListener { e ->
+                e.printStackTrace()
                 onResultSuccess(false)
             }
     }

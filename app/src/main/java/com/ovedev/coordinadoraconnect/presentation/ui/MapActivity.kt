@@ -8,12 +8,16 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.LatLngBounds
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.net.PlacesClient
 import com.ovedev.coordinadoraconnect.BuildConfig
 import com.ovedev.coordinadoraconnect.R
 import com.ovedev.coordinadoraconnect.databinding.ActivityMapBinding
+import com.ovedev.coordinadoraconnect.presentation.model.Position
 import com.ovedev.coordinadoraconnect.presentation.ui.base.BaseActivity
+import com.ovedev.coordinadoraconnect.utils.Constant
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -59,8 +63,22 @@ class MapActivity : BaseActivity(), OnMapReadyCallback {
         gMap = googleMap
         gMap.uiSettings.isZoomControlsEnabled = true
 
-        val location = LatLng(40.712776, -74.005974)
-        gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 12f))
+        val positionsList = intent.getParcelableArrayListExtra<Position>(Constant.BUNDLE_KEY_POSITIONS) ?: arrayListOf()
+        if (positionsList.isEmpty()) {
+            val defaultLocation = LatLng(-34.0, 151.0)
+            gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(defaultLocation, 10f))
+        } else {
+            val boundsBuilder = LatLngBounds.Builder()
+            for (position in positionsList) {
+                val location = LatLng(position.latitude, position.longitude)
+                gMap.addMarker(MarkerOptions().position(location).title("Posición ${position.latitude - position.longitude}"))
+                boundsBuilder.include(location)
+            }
+
+            val bounds = boundsBuilder.build()
+            val padding = 100
+            gMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, padding))
+        }
     }
 
 }

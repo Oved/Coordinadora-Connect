@@ -32,7 +32,7 @@ class LoginActivity : BaseActivity() {
             when (response) {
                 is Response.Error -> Unit
                 is Response.Loading -> if (response.isLoading) loadingModal.show() else loadingModal.hide()
-                is Response.Success -> startActivity(Intent(this@LoginActivity, MenuActivity::class.java))
+                is Response.Success -> goToMenu()
             }
         }
     }
@@ -41,6 +41,11 @@ class LoginActivity : BaseActivity() {
         binding.btnLogin.setOnClickListener {
             doLogin()
         }
+    }
+
+    private fun goToMenu() {
+        startActivity(Intent(this@LoginActivity, MenuActivity::class.java))
+        finish()
     }
 
     private fun doLogin() {

@@ -10,6 +10,10 @@ class Constant {
         //File
         const val FILE_NAME = "archivo.pdf"
         const val PACKAGE_NAME = "pruebacoordi"
+
+        //Bundle
+        const val BUNDLE_KEY_POSITIONS = "positionsList"
+
     }
 
 }

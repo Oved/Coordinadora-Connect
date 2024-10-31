@@ -9,6 +9,7 @@ import androidx.activity.viewModels
 import com.ovedev.coordinadoraconnect.data.Response
 import com.ovedev.coordinadoraconnect.data.remote.response.PdfResponse
 import com.ovedev.coordinadoraconnect.databinding.ActivityMenuBinding
+import com.ovedev.coordinadoraconnect.presentation.model.Position
 import com.ovedev.coordinadoraconnect.presentation.ui.base.BaseActivity
 import com.ovedev.coordinadoraconnect.presentation.viewmodel.MenuViewModel
 import com.ovedev.coordinadoraconnect.utils.Constant
@@ -20,6 +21,7 @@ class MenuActivity : BaseActivity() {
 
     private val menuViewModel: MenuViewModel by viewModels()
     private lateinit var binding: ActivityMenuBinding
+    private var gPositions: List<Position>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +53,7 @@ class MenuActivity : BaseActivity() {
             requestPermissions()
         }
         binding.btnMap.setOnClickListener {
-            startActivity(Intent(this@MenuActivity, MapActivity::class.java))
+            goToMap()
         }
     }
 
@@ -62,12 +64,19 @@ class MenuActivity : BaseActivity() {
     }
 
     private fun processData(response: PdfResponse) {
+        gPositions = response.positions
         response.base64Data?.let {
             val fileDoc = fileUtil.saveFileInLocalBase64(it, Constant.FILE_NAME)
             binding.pdfView.fromUri(fileDoc)
                 .defaultPage(0)
                 .load()
         }
+    }
+
+    private fun goToMap() {
+        val intent = Intent(this, MapActivity::class.java)
+        intent.putParcelableArrayListExtra(Constant.BUNDLE_KEY_POSITIONS, ArrayList(gPositions ?: emptyList()))
+        startActivity(intent)
     }
 
     override fun onRequestPermissionsResult(
