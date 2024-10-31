@@ -24,8 +24,9 @@ class LoginUseCase @Inject constructor(
             if (response.isError == true) {
                 emit(Response.Error(response.message ?: "Error desconocido"))
             } else {
-                userDBRepository.saveUser(createUserEntity(userId = username, response.validationPeriod))
-                val userSaved = firebaseRepository.saveUser(userId = username, userName = "Oved Rincón", validationPeriod = response.validationPeriod ?: 0)
+                val userNameResponse = response.dataUserName.toString()
+                userDBRepository.saveUser(createUserEntity(userId = username, response.validationPeriod, userNameResponse))
+                val userSaved = firebaseRepository.saveUser(userId = username, userName = userNameResponse, validationPeriod = response.validationPeriod ?: 0)
                 if (userSaved) emit(Response.Success(response))
                 else emit(Response.Error(response.message ?: "Error en el servicio"))
             }
@@ -36,9 +37,9 @@ class LoginUseCase @Inject constructor(
         emit(Response.Loading(false))
     }
 
-    private fun createUserEntity(userId: String, period: Int?) = UserEntity(
+    private fun createUserEntity(userId: String, period: Int?, dataUserName: String) = UserEntity(
         userId = userId,
-        userName = "Oved Rincón",
+        userName = dataUserName,
         registerDate = Date().dateToString(),
         validationPeriod = period ?: 0
     )

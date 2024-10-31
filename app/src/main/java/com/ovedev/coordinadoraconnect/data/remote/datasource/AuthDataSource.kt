@@ -37,7 +37,7 @@ class AuthDataSource @Inject constructor(
                 } else {
                     LoginResponse(
                         isError = false,
-                        message = response.optString("data", ""),
+                        dataUserName = response.optString("data", ""),
                         validationPeriod = response.optInt("perido_validacion", 2)
                     )
                 }
