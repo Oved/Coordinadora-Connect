@@ -47,7 +47,7 @@ class LoginActivity : BaseActivity() {
         binding.edtName.doOnTextChanged { _, _, _, _ ->
             validateBtnLogin()
         }
-        binding.edtName.doOnTextChanged { _, _, _, _ ->
+        binding.edtPassword.doOnTextChanged { _, _, _, _ ->
             validateBtnLogin()
         }
     }
