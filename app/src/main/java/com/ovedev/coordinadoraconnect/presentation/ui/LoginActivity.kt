@@ -8,6 +8,8 @@ import com.ovedev.coordinadoraconnect.data.Response
 import com.ovedev.coordinadoraconnect.databinding.ActivityLoginBinding
 import com.ovedev.coordinadoraconnect.presentation.ui.base.BaseActivity
 import com.ovedev.coordinadoraconnect.presentation.viewmodel.AuthViewModel
+import com.ovedev.coordinadoraconnect.utils.view.DialogInfo
+import com.ovedev.coordinadoraconnect.utils.view.IDialogInfo
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -30,7 +32,7 @@ class LoginActivity : BaseActivity() {
     private fun setupViewModel() {
         authViewModel.responseLogin.observe(this) { response ->
             when (response) {
-                is Response.Error -> Unit
+                is Response.Error -> showDialogError()
                 is Response.Loading -> if (response.isLoading) loadingModal.show() else loadingModal.hide()
                 is Response.Success -> goToMenu()
             }
@@ -52,6 +54,21 @@ class LoginActivity : BaseActivity() {
         authViewModel.login(
             binding.edtName.text.toString(),
             binding.edtPassword.text.toString()
+        )
+    }
+
+    private fun showDialogError() {
+        val dialog = DialogInfo(this)
+        dialog.setCallbacks(object : IDialogInfo {
+            override fun onPressBtn() = Unit
+            override fun onPressBtnTwo() = Unit
+        })
+        dialog.show(
+            "Error",
+            "Error en la respuesta",
+            "Reintentar",
+            btnTwoEnable = true,
+            "Entendido"
         )
     }
 }

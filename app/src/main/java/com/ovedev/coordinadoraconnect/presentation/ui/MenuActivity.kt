@@ -14,6 +14,8 @@ import com.ovedev.coordinadoraconnect.presentation.ui.base.BaseActivity
 import com.ovedev.coordinadoraconnect.presentation.viewmodel.MenuViewModel
 import com.ovedev.coordinadoraconnect.utils.Constant
 import com.ovedev.coordinadoraconnect.utils.PermissionsUtil
+import com.ovedev.coordinadoraconnect.utils.view.DialogInfo
+import com.ovedev.coordinadoraconnect.utils.view.IDialogInfo
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -37,7 +39,7 @@ class MenuActivity : BaseActivity() {
     private fun setupViewModel() {
         menuViewModel.responsePdf.observe(this) { response ->
             when (response) {
-                is Response.Error -> Unit
+                is Response.Error -> showDialogError()
                 is Response.Loading -> if (response.isLoading) loadingModal.show() else loadingModal.hide()
                 is Response.Success -> processData(response.data)
             }
@@ -92,6 +94,21 @@ class MenuActivity : BaseActivity() {
                 Toast.makeText(this, "Permisos de almacenamiento denegados", Toast.LENGTH_LONG).show()
             }
         }
+    }
+
+    private fun showDialogError() {
+        val dialog = DialogInfo(this)
+        dialog.setCallbacks(object : IDialogInfo {
+            override fun onPressBtn() = Unit
+            override fun onPressBtnTwo() = Unit
+        })
+        dialog.show(
+            "Error",
+            "Error en la respuesta",
+            "Reintentar",
+            btnTwoEnable = true,
+            "Entendido"
+        )
     }
 
 }
