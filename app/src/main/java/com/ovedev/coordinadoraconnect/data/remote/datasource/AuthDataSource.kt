@@ -1,5 +1,6 @@
 package com.ovedev.coordinadoraconnect.data.remote.datasource
 
+import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.JsonObjectRequest
@@ -50,6 +51,7 @@ class AuthDataSource @Inject constructor(
                 onResult(loginResponse)
             }
         )
+        request.retryPolicy = getDefaultRetryPolicy()
         requestQueue.add(request)
     }
 
@@ -68,10 +70,12 @@ class AuthDataSource @Inject constructor(
                     )
                 }
                 onResult(base64Response)
-            },
-            { onResult(PdfResponse(isError = true)) }
+            }, { error ->
+                error.printStackTrace()
+                onResult(PdfResponse(isError = true))
+            }
         )
-
+        request.retryPolicy = getDefaultRetryPolicy()
         requestQueue.add(request)
     }
 
@@ -88,6 +92,14 @@ class AuthDataSource @Inject constructor(
             positions.add(Position(latitude, longitude))
         }
         return positions
+    }
+
+    private fun getDefaultRetryPolicy(): DefaultRetryPolicy {
+        return DefaultRetryPolicy(
+            20000,
+            DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        )
     }
 
 }

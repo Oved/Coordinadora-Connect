@@ -17,13 +17,17 @@ android {
         applicationId = "com.ovedev.coordinadoraconnect"
         minSdk = 24
         targetSdk = 34
-        versionCode = 113
-        versionName = "1.1.3"
+        versionCode = 114
+        versionName = "1.1.4"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     project.ext.set("appVersionName", defaultConfig.versionName)
 
+    defaultConfig {
+        val googleMapsApiKey: String = project.findProperty("GOOGLE_MAPS_API_KEY") as String
+        buildConfigField("String", "GOOGLE_MAPS_API_KEY", "\"$googleMapsApiKey\"")
+    }
     buildTypes {
         release {
             isMinifyEnabled = false

@@ -33,6 +33,7 @@ class LoginUseCase @Inject constructor(
                 }
             }
         } catch (e: Exception) {
+            e.printStackTrace()
             emit(Response.Error(e.message ?: "Error desconocido"))
         }
         emit(Response.Loading(false))

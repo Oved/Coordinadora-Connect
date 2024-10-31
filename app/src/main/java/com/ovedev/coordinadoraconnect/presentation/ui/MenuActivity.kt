@@ -1,5 +1,6 @@
 package com.ovedev.coordinadoraconnect.presentation.ui
 
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.widget.Toast
@@ -48,6 +49,9 @@ class MenuActivity : BaseActivity() {
     private fun setupListeners() {
         binding.btnReload.setOnClickListener {
             requestPermissions()
+        }
+        binding.btnMap.setOnClickListener {
+            startActivity(Intent(this@MenuActivity, MapActivity::class.java))
         }
     }
 
