@@ -64,6 +64,8 @@ class LoginUseCaseTest {
         // Then
         assertEquals(Response.Loading(true), result[0])
         assertEquals(Response.Success(loginResponse), result[1])
+        assertEquals(false, (result[1] as Response.Success<LoginResponse>).data.isError)
+        assertEquals(loginResponse.dataUserName, (result[1] as Response.Success<LoginResponse>).data.dataUserName)
         assertEquals(Response.Loading(false), result[2])
     }
 
