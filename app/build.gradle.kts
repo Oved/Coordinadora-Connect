@@ -18,8 +18,8 @@ android {
         applicationId = "com.ovedev.coordinadoraconnect"
         minSdk = 24
         targetSdk = 34
-        versionCode = 118
-        versionName = "1.1.8"
+        versionCode = 119
+        versionName = "1.1.9"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -133,6 +133,11 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    testImplementation (libs.mockito.core)
+    testImplementation (libs.mockito.inline)
+    testImplementation (libs.kotlinx.coroutines.test)
+    testImplementation (libs.mockk)
+    testImplementation (libs.androidx.core.testing)
 }
 
 kapt {

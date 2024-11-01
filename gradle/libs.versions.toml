@@ -2,6 +2,7 @@
 agp = "8.5.2"
 androidDatabaseSqlcipher = "4.5.4"
 androidpdfviewer = "3.1.0-beta.1"
+coreTesting = "2.2.0"
 fragmentKtx = "1.8.4"
 hiltAndroid = "2.52"
 kotlin = "2.0.20"
@@ -11,11 +12,15 @@ junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 appcompat = "1.7.0"
 kotlinxCoroutinesAndroid = "1.7.3"
+kotlinxCoroutinesTest = "1.7.2"
 lifecycleRuntimeKtx = "2.8.6"
 material = "1.12.0"
 firebase-bom = "33.5.1"
 activity = "1.9.3"
 constraintlayout = "2.1.4"
+mockitoCore = "3.12.4"
+mockitoInline = "2.13.0"
+mockk = "1.12.0"
 places = "4.0.0"
 playServicesLocation = "21.3.0"
 playServicesMaps = "19.0.0"
@@ -31,6 +36,7 @@ android-database-sqlcipher = { module = "net.zetetic:android-database-sqlcipher"
 androidpdfviewer = { module = "com.github.DImuthuUpe:AndroidPdfViewer", version.ref = "androidpdfviewer" }
 androidx-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "activity" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-core-testing = { module = "androidx.arch.core:core-testing", version.ref = "coreTesting" }
 androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "fragmentKtx" }
 androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
 androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycleRuntimeKtx" }
@@ -52,9 +58,13 @@ androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "j
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesAndroid" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
+mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockitoCore" }
+mockito-inline = { module = "org.mockito:mockito-inline", version.ref = "mockitoInline" }
+mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 places = { module = "com.google.android.libraries.places:places", version.ref = "places" }
 play-services-location = { module = "com.google.android.gms:play-services-location", version.ref = "playServicesLocation" }
 play-services-maps = { module = "com.google.android.gms:play-services-maps", version.ref = "playServicesMaps" }
