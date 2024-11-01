@@ -109,7 +109,7 @@ class MenuActivity : BaseActivity() {
 
     private fun processContinueInSession(user: UserModel?) {
         if (user != null) {
-            binding.txtName.text = getString(R.string.text_welcome).replace(Constant.GLOBAL_REPLACEMENT, user.username)
+            binding.txtName.text = getString(R.string.text_hello).replace(Constant.GLOBAL_REPLACEMENT, user.username)
             requestPermissions()
         } else showDialogSessionExpired()
     }

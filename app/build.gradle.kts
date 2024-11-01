@@ -17,7 +17,7 @@ android {
     defaultConfig {
         applicationId = "com.ovedev.coordinadoraconnect"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 119
         versionName = "1.1.9"
 

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Coordinadora Connect</string>
     <string name="text_version">version ****</string>
-    <string name="text_welcome">Bienvenido ****</string>
+    <string name="text_hello">Hola ****</string>
     <string name="text_position">Posición ****</string>
     <string name="edit_text_user">Usuario</string>
     <string name="edit_text_password">Contraseña</string>

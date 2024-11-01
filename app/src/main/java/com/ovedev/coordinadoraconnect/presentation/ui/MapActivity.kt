@@ -2,6 +2,8 @@ package com.ovedev.coordinadoraconnect.presentation.ui
 
 import android.location.Geocoder
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -81,7 +83,9 @@ class MapActivity : BaseActivity(), OnMapReadyCallback {
 
             val bounds = boundsBuilder.build()
             val padding = 100
-            gMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, padding))
+            Handler(Looper.getMainLooper()).post {
+                gMap.animateCamera(CameraUpdateFactory.newLatLngBounds(bounds, padding))
+            }
         }
         setupMarkerListener()
     }
