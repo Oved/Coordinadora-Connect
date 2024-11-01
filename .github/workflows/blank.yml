@@ -36,6 +36,9 @@ jobs:
           echo "Version: ${{ env.version }}"
           echo "Commit: ${{ env.commit_msg }}"
 
+      - name: Run Unit Tests
+        run: ./gradlew test
+
       - name: Build and distribute to Firebase
         env:
           FIREBASE_APP_ID: candidato-ovedrincon
