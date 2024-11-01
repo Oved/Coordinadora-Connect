@@ -8,10 +8,14 @@
     <string name="button_login">Iniciar Sesión</string>
     <string name="text_error_title">Error</string>
     <string name="text_try">Reintentar</string>
+    <string name="text_error_no_connection">No hay conexión a internet</string>
+    <string name="text_error_network">Comprueba tu conexión a internet y vuelve a intentarlo</string>
     <string name="text_understood">Entendido</string>
     <string name="text_session_expired">Tu sesión ha expirado</string>
     <string name="text_session_expired_message">Tu sesión ha expirado, por favor inicia sesión nuevamente</string>
     <string name="text_close_session">Cerrar Sesión</string>
     <string name="text_permissions_denied">"Permisos de almacenamiento denegados"</string>
+    <string name="text_location_no_found">"No se encontró información de ubicación"</string>
+    <string name="text_neighborhood_city">"Barrio: ****, Ciudad: ****"</string>
 
 </resources>

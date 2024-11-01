@@ -35,7 +35,7 @@ class MenuActivity : BaseActivity() {
 
         setupViewModel()
         setupListeners()
-        menuViewModel.verifyContinueInSession()
+        verifyContinueInSession()
     }
 
     private fun setupViewModel() {
@@ -48,7 +48,7 @@ class MenuActivity : BaseActivity() {
         }
         menuViewModel.responseContinueInSession.observe(this) { response ->
             when (response) {
-                is Response.Error -> Unit
+                is Response.Error -> loadingModal.hide()
                 is Response.Loading -> if (response.isLoading) loadingModal.show() else loadingModal.hide()
                 is Response.Success -> processContinueInSession(response.data)
             }
@@ -71,10 +71,30 @@ class MenuActivity : BaseActivity() {
         }
     }
 
+    private fun verifyContinueInSession() {
+        validateNetwork({
+            menuViewModel.verifyContinueInSession()
+        }, {
+            showDialogErrorNetwork {
+                verifyContinueInSession()
+            }
+        })
+    }
+
     private fun requestPermissions() {
         PermissionsUtil().requestStoragePermissions(this) {
-            menuViewModel.getPdfLocation()
+            getPdfAndLocation()
         }
+    }
+
+    private fun getPdfAndLocation() {
+        validateNetwork({
+            menuViewModel.getPdfLocation()
+        }, {
+            showDialogErrorNetwork {
+                getPdfAndLocation()
+            }
+        })
     }
 
     private fun processData(response: PdfResponse) {
@@ -115,7 +135,7 @@ class MenuActivity : BaseActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == PermissionsUtil.STORAGE_PERMISSION_CODE) {
             if (grantResults.isNotEmpty() && grantResults.all { it == PackageManager.PERMISSION_GRANTED }) {
-                menuViewModel.getPdfLocation()
+                getPdfAndLocation()
             } else {
                 Toast.makeText(this, getString(R.string.text_permissions_denied), Toast.LENGTH_LONG).show()
             }
@@ -125,7 +145,7 @@ class MenuActivity : BaseActivity() {
     private fun showDialogError(message: String) {
         val dialog = DialogInfo(this)
         dialog.setCallbacks(object : IDialogInfo {
-            override fun onPressBtn() = menuViewModel.getPdfLocation()
+            override fun onPressBtn() = getPdfAndLocation()
             override fun onPressBtnTwo() = Unit
         })
         dialog.show(

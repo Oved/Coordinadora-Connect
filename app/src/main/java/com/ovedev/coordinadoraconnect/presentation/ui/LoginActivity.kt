@@ -63,10 +63,16 @@ class LoginActivity : BaseActivity() {
     }
 
     private fun doLogin() {
-        authViewModel.login(
-            binding.edtName.text.toString(),
-            binding.edtPassword.text.toString()
-        )
+        validateNetwork({
+            authViewModel.login(
+                binding.edtName.text.toString(),
+                binding.edtPassword.text.toString()
+            )
+        }, {
+            showDialogErrorNetwork {
+                doLogin()
+            }
+        })
     }
 
     private fun showDialogError(message: String) {
